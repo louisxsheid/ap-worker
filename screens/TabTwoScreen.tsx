@@ -3,8 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { getAuth, signOut } from 'firebase/auth';
-
-const auth = getAuth();
+import { auth } from '../firebase';
 
 export default function TabTwoScreen() {
     return (
@@ -22,7 +21,7 @@ export default function TabTwoScreen() {
                 }}
                 style={styles.button}
             >
-                <Text style={{ color: 'black' }}>Logout</Text>
+                <Text style={{ color: 'black' }}>JFGKSDJklgj</Text>
             </TouchableOpacity>
         </View>
     );

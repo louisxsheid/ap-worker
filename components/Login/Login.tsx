@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Formik, Field, Form, FormikHelpers } from 'formik';
+
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import {
     View,
@@ -20,10 +20,11 @@ interface Values {
     password: string;
 }
 
+import { auth } from '../../firebase';
+
 // Display Login page and handle login
 
 const Login: any = ({ setIsLoggedIn }: any): JSX.Element => {
-    const auth = getAuth();
     const [error, setError] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -46,7 +47,6 @@ const Login: any = ({ setIsLoggedIn }: any): JSX.Element => {
     };
 
     return (
-        // <View>
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <Image
                 source={require('../../assets/images/arrowplumbinglogo.png')}
@@ -77,7 +77,6 @@ const Login: any = ({ setIsLoggedIn }: any): JSX.Element => {
             </TouchableOpacity>
             <Text style={{ color: 'red' }}>{error}</Text>
         </KeyboardAvoidingView>
-        // </View>
     );
 };
 
