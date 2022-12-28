@@ -21,7 +21,7 @@ export default function TabTwoScreen() {
                 }}
                 style={styles.button}
             >
-                <Text style={{ color: 'black' }}>JFGKSDJklgj</Text>
+                <Text style={{ color: 'black' }}>Logout</Text>
             </TouchableOpacity>
         </View>
     );

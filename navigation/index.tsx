@@ -20,6 +20,7 @@ import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
+import JobDetails from '../screens/JobDetails';
 import {
     RootStackParamList,
     RootTabParamList,
@@ -35,7 +36,7 @@ export default function Navigation({
     return (
         <NavigationContainer
             linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+            theme={DefaultTheme}
         >
             <RootNavigator />
         </NavigationContainer>
@@ -61,10 +62,30 @@ function RootNavigator() {
                 component={NotFoundScreen}
                 options={{ title: 'Oops!' }}
             />
+            <Stack.Screen
+            //@ts-ignore
+                name="Jobs"
+                component={JobsStackScreen}
+                options={{ title: 'Job Details' }}
+            />
             <Stack.Group screenOptions={{ presentation: 'modal' }}>
                 <Stack.Screen name="Modal" component={ModalScreen} />
             </Stack.Group>
         </Stack.Navigator>
+    );
+}
+
+const JobsStack = createNativeStackNavigator();
+
+function JobsStackScreen() {
+    return (
+        <JobsStack.Navigator>
+            <JobsStack.Screen
+                name="JobDetails"
+                component={JobDetails}
+                options={{ headerShown: false }}
+            />
+        </JobsStack.Navigator>
     );
 }
 
@@ -88,32 +109,32 @@ function BottomTabNavigator() {
                 name="TabOne"
                 component={TabOneScreen}
                 options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-                    title: 'Tab One',
+                    title: 'JOBS',
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="code" color={color} />
                     ),
-                    headerRight: () => (
-                        <Pressable
-                            onPress={() => navigation.navigate('Modal')}
-                            style={({ pressed }) => ({
-                                opacity: pressed ? 0.5 : 1
-                            })}
-                        >
-                            <FontAwesome
-                                name="info-circle"
-                                size={25}
-                                color={Colors[colorScheme].text}
-                                style={{ marginRight: 15 }}
-                            />
-                        </Pressable>
-                    )
+                    // headerRight: () => (
+                    //     <Pressable
+                    //         onPress={() => navigation.navigate('Modal')}
+                    //         style={({ pressed }) => ({
+                    //             opacity: pressed ? 0.5 : 1
+                    //         })}
+                    //     >
+                    //         <FontAwesome
+                    //             name="info-circle"
+                    //             size={25}
+                    //             color={Colors[colorScheme].text}
+                    //             style={{ marginRight: 15 }}
+                    //         />
+                    //     </Pressable>
+                    // )
                 })}
             />
             <BottomTab.Screen
                 name="TabTwo"
                 component={TabTwoScreen}
                 options={{
-                    title: 'Tab Two',
+                    title: 'PAYROLL',
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="code" color={color} />
                     )
