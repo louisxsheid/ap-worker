@@ -7,20 +7,45 @@ import { RootTabScreenProps } from '../types';
 
 import { db, auth } from '../firebase';
 import { ref, onValue } from "firebase/database";
+import { JobTabs } from '../components/JobDetails/JobTabs/JobTabs';
+import { Overview } from '../components/JobDetails/Overview';
 
 export default function JobDetails({
     navigation,
     route
 }: any) {
-    console.log(route)
+    // console.log(route)
+    const [currentTab, setCurrentTab] = useState("Overview");
+    const [currentTabComponent, setCurrentTabComponent] = useState(<Overview route={route}/>);
+
+    useEffect(() => {
+        switch(currentTab) {
+            case "Overview":
+                setCurrentTabComponent(<Overview route={route}/>);
+                break;
+            case "Client":
+                setCurrentTabComponent(<></>);
+                break;
+            case "Time / Material":
+                setCurrentTabComponent(<></>);
+                break;
+            case "Notes":
+                setCurrentTabComponent(<></>);
+                break;
+            case "Signature":
+                setCurrentTabComponent(<></>);
+                break;
+        }
+    }, [currentTab]);
 
     return (
         <View style={styles.container}>
-            <View style={styles.jobListWrapper2}>
-                <Text style={styles.title}>Job Name: {route.params.job.job_name}</Text>
-                <Text style={styles.title}>Date: {route.params.job.date}</Text>
-                <Text style={styles.title}>Start Time: {route.params.job.start_time}</Text>
-                <Text style={styles.title}>End Time: {route.params.job.end_time}</Text>
+                <JobTabs 
+                    setCurrentTab={setCurrentTab} 
+                    setCurrentTabComponent={setCurrentTabComponent}
+                />
+            <View style={[styles.jobListWrapper2, styles.shadowProp]}>
+                {currentTabComponent}
             </View>
         </View>
     );
@@ -35,7 +60,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 15,
-        fontWeight: 'bold',
+        fontWeight: 'bold',  
         backgroundColor: "transparent",
     },
     separator: {
@@ -52,7 +77,7 @@ const styles = StyleSheet.create({
     shadowProp: {
         shadowColor: '#171717',
         shadowOffset: {width: -2, height: 4},
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.4,
         shadowRadius: 3,
       },
     category_wrapper: { 
@@ -84,8 +109,13 @@ const styles = StyleSheet.create({
     },
     jobListWrapper2: {
         backgroundColor: "#D9D9D9",
-        height: "100%",
+        height: "92.5%",
         width: "100%",
         borderRadius: 10,
+        marginTop: "5%",
     },
+    jobDetailsWrapper: {
+        backgroundColor: "transparent",
+    }
+
 });

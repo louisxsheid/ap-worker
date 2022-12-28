@@ -14,17 +14,15 @@ export default function TabOneScreen({
     const [currentUser, setCurrentUser] = useState<any>({});
     const user = auth.currentUser;
     const userId = user?.uid;
-    // console.log(user)
-    // const activeJobs = ref(db, `workers/${userId}/activeJobs`);
     const workersRef = ref(db, `workers`);
+
     useEffect(() => {
-        console.log("yikes")
         onValue(workersRef, (snapshot) => {
             if(!snapshot.exists()) return;
             const data = snapshot.val();
-            for(const [key, value] of Object.entries(data)) {
+            for(const [_, value] of Object.entries(data)) {
                 //@ts-ignore
-                for(const [key2, value2] of Object.entries(value)) {
+                for(const [_, value2] of Object.entries(value)) {
                     if(value2 == userId) {
                         setCurrentUser(value);
                         break;
@@ -36,7 +34,6 @@ export default function TabOneScreen({
 
     return (
         <View style={styles.container}>
-            {/* <Text style={styles.title}>Today</Text> */}
             <View style={[styles.jobListWrapper, styles.shadowProp]}>
                 <View style={styles.category_wrapper}>
                     <Text style={styles.title}>Name</Text>
@@ -47,7 +44,9 @@ export default function TabOneScreen({
                     {currentUser.active_jobs && currentUser.active_jobs.map((job: any) => {
                       
                         return (
-                            <TouchableOpacity onPress={() => {
+                            <TouchableOpacity 
+                            key={currentUser.active_jobs.indexOf(job)}
+                            onPress={() => {
                                 //@ts-ignore
                                 navigation.navigate("Jobs", {
                                     screen: 'JobDetails',
@@ -114,7 +113,6 @@ const styles = StyleSheet.create({
     },
     jobWrap: {
         backgroundColor: "white",
-        // width: "100%",
         height: 80,
         borderRadius: 10,
         flexDirection: "row",
