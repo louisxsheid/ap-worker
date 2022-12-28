@@ -6,7 +6,7 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 import { db, auth } from '../firebase';
-import { ref, onValue } from "firebase/database";
+import { ref, onValue } from 'firebase/database';
 
 export default function TabOneScreen({
     navigation
@@ -18,18 +18,18 @@ export default function TabOneScreen({
 
     useEffect(() => {
         onValue(workersRef, (snapshot) => {
-            if(!snapshot.exists()) return;
+            if (!snapshot.exists()) return;
             const data = snapshot.val();
-            for(const [_, value] of Object.entries(data)) {
+            for (const [_, value] of Object.entries(data)) {
                 //@ts-ignore
-                for(const [_, value2] of Object.entries(value)) {
-                    if(value2 == userId) {
+                for (const [_, value2] of Object.entries(value)) {
+                    if (value2 == userId) {
                         setCurrentUser(value);
                         break;
                     }
                 }
             }
-        })
+        });
     }, []);
 
     return (
@@ -41,30 +41,57 @@ export default function TabOneScreen({
                     <Text style={styles.title}>Status</Text>
                 </View>
                 <View style={styles.jobList}>
-                    {currentUser.active_jobs && currentUser.active_jobs.map((job: any) => {
-                      
-                        return (
-                            <TouchableOpacity 
-                            key={currentUser.active_jobs.indexOf(job)}
-                            onPress={() => {
-                                //@ts-ignore
-                                navigation.navigate("Jobs", {
-                                    screen: 'JobDetails',
-                                    params: { job: job },
-                                  })
-                            }}>
-                                <View style={[styles.jobWrap, styles.shadowProp]}>
-                                    <Text style={[styles.title, styles.jobInfoItem]}>{job.job_name}</Text>
-                                    <View style={[styles.title, styles.jobInfoItem]}>
-                                        <Text>{job.date}</Text>
-                                        <Text>{job.start_time} - {job.end_time}</Text>
+                    {currentUser.active_jobs &&
+                        currentUser.active_jobs.map((job: any) => {
+                            return (
+                                <TouchableOpacity
+                                    key={currentUser.active_jobs.indexOf(job)}
+                                    onPress={() => {
+                                        //@ts-ignore
+                                        navigation.navigate('Jobs', {
+                                            screen: 'JobDetails',
+                                            params: { job: job }
+                                        });
+                                    }}
+                                >
+                                    <View
+                                        style={[
+                                            styles.jobWrap,
+                                            styles.shadowProp
+                                        ]}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.title,
+                                                styles.jobInfoItem
+                                            ]}
+                                        >
+                                            {job.job_name}
+                                        </Text>
+                                        <View
+                                            style={[
+                                                styles.title,
+                                                styles.jobInfoItem
+                                            ]}
+                                        >
+                                            <Text>{job.date}</Text>
+                                            <Text>
+                                                {job.start_time} -{' '}
+                                                {job.end_time}
+                                            </Text>
+                                        </View>
+                                        <Text
+                                            style={[
+                                                styles.title,
+                                                styles.jobInfoItem
+                                            ]}
+                                        >
+                                            TBA
+                                        </Text>
                                     </View>
-                                    <Text style={[styles.title, styles.jobInfoItem]}>TBA</Text>
-                                </View>
-                            </TouchableOpacity>
-                        )
-                    })
-                    }
+                                </TouchableOpacity>
+                            );
+                        })}
                 </View>
             </View>
         </View>
@@ -76,12 +103,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: "5%"
+        padding: '5%'
     },
     title: {
         fontSize: 15,
         fontWeight: 'bold',
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent'
     },
     separator: {
         marginVertical: 30,
@@ -89,41 +116,41 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     jobListWrapper: {
-        backgroundColor: "#D9D9D9",
-        height: "100%",
-        width: "100%",
+        backgroundColor: '#D9D9D9',
+        height: '100%',
+        width: '100%',
         borderRadius: 10
     },
     shadowProp: {
         shadowColor: '#171717',
-        shadowOffset: {width: -2, height: 4},
+        shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.25,
-        shadowRadius: 3,
-      },
-    category_wrapper: { 
-        flexDirection: "row",
-        backgroundColor: "transparent",
-        width: "100%",
-        justifyContent: "space-around",
-        marginTop: "5%",
+        shadowRadius: 3
     },
-    jobList: { 
-        backgroundColor: "transparent",
-        padding: "5%"
+    category_wrapper: {
+        flexDirection: 'row',
+        backgroundColor: 'transparent',
+        width: '100%',
+        justifyContent: 'space-around',
+        marginTop: '5%'
+    },
+    jobList: {
+        backgroundColor: 'transparent',
+        padding: '5%'
     },
     jobWrap: {
-        backgroundColor: "white",
+        backgroundColor: 'white',
         height: 80,
         borderRadius: 10,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        marginBottom: "5%",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginBottom: '5%'
     },
-    jobInfoItem: { 
-        width: "30%",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
+    jobInfoItem: {
+        width: '30%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center'
     }
 });

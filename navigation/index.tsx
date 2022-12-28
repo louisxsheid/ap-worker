@@ -63,7 +63,7 @@ function RootNavigator() {
                 options={{ title: 'Oops!' }}
             />
             <Stack.Screen
-            //@ts-ignore
+                //@ts-ignore
                 name="Jobs"
                 component={JobsStackScreen}
                 options={{ title: 'Job Details' }}
@@ -112,7 +112,7 @@ function BottomTabNavigator() {
                     title: 'JOBS',
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="code" color={color} />
-                    ),
+                    )
                     // headerRight: () => (
                     //     <Pressable
                     //         onPress={() => navigation.navigate('Modal')}

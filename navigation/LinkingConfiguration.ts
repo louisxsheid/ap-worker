@@ -18,7 +18,7 @@ const linking: LinkingOptions<RootStackParamList> = {
                     TabOne: {
                         screens: {
                             TabOneScreen: 'one',
-                            JobDetails: "JobDetails"
+                            JobDetails: 'JobDetails'
                         }
                     },
                     TabTwo: {

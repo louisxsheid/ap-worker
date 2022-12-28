@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
-
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    FlatList,
+    Image,
+    ScrollView
+} from 'react-native';
 
 export const Tab = ({ title, setCurrentTab }: any) => {
     return (
@@ -9,15 +16,14 @@ export const Tab = ({ title, setCurrentTab }: any) => {
                 <Text style={styles.title}>{title}</Text>
             </View>
         </TouchableOpacity>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     category_tab: {
-        backgroundColor: "#C4C4C4",
+        backgroundColor: '#C4C4C4',
         padding: 10,
-        borderRadius: 10,
+        borderRadius: 10
     },
-    title: {
-    },
+    title: {}
 });

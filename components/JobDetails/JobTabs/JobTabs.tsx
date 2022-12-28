@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    FlatList,
+    Image,
+    ScrollView
+} from 'react-native';
 import { Tab } from './Tab';
 
-export const JobTabs =  ({ setCurrentTab }: any) => {
+export const JobTabs = ({ setCurrentTab }: any) => {
     return (
-            <View style={styles.tabWrapper}>
-                <Tab title={"Overview"} setCurrentTab={setCurrentTab} />
-                <Tab title={"Client"} setCurrentTab={setCurrentTab} />
-                <Tab title={"Time / Material"} setCurrentTab={setCurrentTab} />
-                <Tab title={"Notes"} setCurrentTab={setCurrentTab} />
-                <Tab title={"Signature"} setCurrentTab={setCurrentTab} />
-            </View>
-    )
-}
+        <View style={styles.tabWrapper}>
+            <Tab title={'Overview'} setCurrentTab={setCurrentTab} />
+            <Tab title={'Client'} setCurrentTab={setCurrentTab} />
+            <Tab title={'Time / Material'} setCurrentTab={setCurrentTab} />
+            <Tab title={'Notes'} setCurrentTab={setCurrentTab} />
+            <Tab title={'Signature'} setCurrentTab={setCurrentTab} />
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container2: {
@@ -34,10 +42,10 @@ const styles = StyleSheet.create({
     tabWrapper: {
         // backgroundColor: "red",
         // height: "100%",
-        width: "100%",
+        width: '100%',
         borderRadius: 10,
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     // shadowProp: {
     //     shadowColor: '#171717',
@@ -52,7 +60,5 @@ const styles = StyleSheet.create({
         // justifyContent: "space-between",
         // padding: "5%"
     },
-    category_tab: {
-
-    }
+    category_tab: {}
 });
