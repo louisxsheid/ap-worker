@@ -6,31 +6,50 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 import { db, auth } from '../firebase';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, get } from 'firebase/database';
 
 export default function TabOneScreen({
     navigation
 }: RootTabScreenProps<'TabOne'>) {
     const [currentUser, setCurrentUser] = useState<any>({});
+    const [activeJobs, setActiveJobs] = useState<any>([]);
     const user = auth.currentUser;
     const userId = user?.uid;
     const workersRef = ref(db, `workers`);
 
     useEffect(() => {
         onValue(workersRef, (snapshot) => {
+            console.log('inside')
+            // let currentUser;
             if (!snapshot.exists()) return;
             const data = snapshot.val();
             for (const [_, value] of Object.entries(data)) {
                 //@ts-ignore
                 for (const [_, value2] of Object.entries(value)) {
                     if (value2 == userId) {
+                        // currentUser = value;
                         setCurrentUser(value);
                         break;
                     }
                 }
             }
+            //@ts-ignore
         });
     }, []);
+
+    useEffect(() => {
+        const activeJobsRef = ref(db, `workers/${currentUser.id}/active_jobs`);
+        get(activeJobsRef).then( (snapshot) => {
+            if (!snapshot.exists()) return;
+            const data = snapshot.val();
+            const activeJobs: any = [];
+            for (const [_, value] of Object.entries(data)) {
+                activeJobs.push(value);
+            }
+            console.log("activeJobs ", activeJobs)
+            setActiveJobs(activeJobs);
+         });
+    }, [currentUser]);
 
     return (
         <View style={styles.container}>
@@ -41,11 +60,11 @@ export default function TabOneScreen({
                     <Text style={styles.title}>Status</Text>
                 </View>
                 <View style={styles.jobList}>
-                    {currentUser.active_jobs &&
-                        currentUser.active_jobs.map((job: any) => {
+                    {activeJobs &&
+                        activeJobs.map((job: any) => {
                             return (
                                 <TouchableOpacity
-                                    key={currentUser.active_jobs.indexOf(job)}
+                                    key={activeJobs.indexOf(job)}
                                     onPress={() => {
                                         //@ts-ignore
                                         navigation.navigate('Jobs', {
@@ -103,7 +122,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '5%'
+        padding: '2.5%'
     },
     title: {
         fontSize: 15,
@@ -132,20 +151,20 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         width: '100%',
         justifyContent: 'space-around',
-        marginTop: '5%'
+        marginTop: '2.5%'
     },
     jobList: {
         backgroundColor: 'transparent',
-        padding: '5%'
+        padding: '2.5%'
     },
     jobWrap: {
         backgroundColor: 'white',
-        height: 80,
+        height: 100,
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
-        marginBottom: '5%'
+        marginBottom: '2.5%'
     },
     jobInfoItem: {
         width: '30%',

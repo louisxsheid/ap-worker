@@ -15,9 +15,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-import { MdOutlineDateRange } from 'react-icons/md';
-import { IoLocationOutline } from 'react-icons/io5';
-import { FiInfo } from 'react-icons/fi';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import axios from 'axios';
@@ -28,7 +25,6 @@ export const Overview = ({ route }: any) => {
     const [clientData, setClientData] = useState<any>({});
     const [latLong, setLatLong] = useState<any>({});
     const [formattedAddress, setFormattedAddress] = useState<any>('');
-    // console.log(route.params.job)
     const { job } = route.params;
 
     useEffect(() => {
@@ -77,7 +73,7 @@ export const Overview = ({ route }: any) => {
     return (
         <View style={styles.jobDetailsWrapper}>
             <View style={styles.topWrapper}>
-                <View style={styles.jobInfo}>
+                <View style={[styles.jobInfo, styles.shadowProp]}>
                     <View>
                         <Text style={styles.jobName}>{job.job_name}</Text>
                     </View>
@@ -112,10 +108,20 @@ export const Overview = ({ route }: any) => {
                         <Text style={styles.title}>[Status]</Text>
                     </View>
                 </View>
-                <View style={styles.jobMap}>
+                <View style={[styles.jobMap, styles.shadowProp]}>
                     <MapView style={styles.map} region={latLong.region}>
                         <Marker coordinate={latLong.region} pinColor={'blue'} />
                     </MapView>
+                </View>
+            </View>
+            <View style={styles.bottomWrapper}>
+                    <Text style={styles.jobDescriptionTitle}>
+                        Description 
+                    </Text>
+                <View style={[styles.descWrapper, styles.shadowProp]}>
+                    <Text style={styles.jobDescription}>
+                            {jobData.description}
+                    </Text>
                 </View>
             </View>
         </View>
@@ -197,13 +203,17 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     jobInfo: {
-        width: '50%',
+        width: '49%',
         flexDirection: 'column',
         justifyContent: 'space-around',
-        paddingRight: '2.5%'
+        padding: '2.5%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        marginRight: '1%'
     },
     jobMap: {
-        width: '50%',
+        width: '49%',
+        marginLeft: '1%',
         height: '100%'
     },
     map: {
@@ -226,5 +236,29 @@ const styles = StyleSheet.create({
     address: {
         width: '80%',
         fontSize: 12
+    },
+    jobDescription: {
+        fontSize: 18,
+        // fontWeight: 'bold',
+        // marginTop: '2.5%'
+    },
+    jobDescriptionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: "gray",
+        // marginTop: '5%'
+    },
+    bottomWrapper: {
+        height: '70%',
+
+        marginTop: '5%',
+        // backgroundColor: 'red'
+    }
+    ,descWrapper: {
+        backgroundColor: 'white',
+        // height: '100%',
+        marginTop: '2%',
+        padding: '2.5%',
+        borderRadius: 10
     }
 });
