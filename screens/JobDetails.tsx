@@ -9,9 +9,9 @@ import { db, auth } from '../firebase';
 import { ref, onValue } from 'firebase/database';
 import { JobTabs } from '../components/JobDetails/JobTabs/JobTabs';
 import { Overview } from '../components/JobDetails/Overview';
+import { Client } from '../components/JobDetails/Client';
 
 export default function JobDetails({ navigation, route }: any) {
-    // console.log(route)
     const [currentTab, setCurrentTab] = useState('Overview');
     const [currentTabComponent, setCurrentTabComponent] = useState(
         <Overview route={route} />
@@ -23,7 +23,7 @@ export default function JobDetails({ navigation, route }: any) {
                 setCurrentTabComponent(<Overview route={route} />);
                 break;
             case 'Client':
-                setCurrentTabComponent(<></>);
+                setCurrentTabComponent(<Client route={route} />);
                 break;
             case 'Time / Material':
                 setCurrentTabComponent(<></>);

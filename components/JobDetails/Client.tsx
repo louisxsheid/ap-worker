@@ -19,23 +19,15 @@ import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import axios from 'axios';
 
-export const Overview = ({ route }: any) => {
-    const [jobData, setJobData] = useState<any>({});
-    const [propertyData, setPropertyData] = useState<any>({});
+export const Client = ({ route }: any) => {
     const [clientData, setClientData] = useState<any>({});
-    const [latLong, setLatLong] = useState<any>({});
-    const [formattedAddress, setFormattedAddress] = useState<any>('');
     const { job } = route.params;
 
     useEffect(() => {
         onValue(ref(db, `jobs/${job.id}`), (snapshot) => {
-            if (!snapshot.exists()) setJobData({});
-            else setJobData(snapshot.val());
+            if (!snapshot.exists()) return
             get(ref(db, `properties/${snapshot.val().associated_property}`))
                 .then((snapshot) => {
-                    if (snapshot.exists()) setPropertyData(snapshot.val());
-                    else setPropertyData({});
-
                     get(ref(db, `clients/${snapshot.val().associated_client}`))
                         .then((snapshot) => {
                             if (snapshot.exists())
@@ -52,30 +44,12 @@ export const Overview = ({ route }: any) => {
         });
     }, []);
 
-    useEffect(() => {
-        const mapString =
-            propertyData.address && propertyData.address.split(' ').join('+');
-        axios({
-            method: 'get',
-            url: `https://maps.google.com/maps/api/geocode/json?address=${mapString},San+Diego+California&key=AIzaSyDsE1smyGbgOiWFRivXxIOm04dqKqDeuhA`
-        }).then((response) => {
-            setFormattedAddress(response.data.results[0].formatted_address);
-            const region = {
-                latitude: response.data.results[0].geometry.location.lat,
-                longitude: response.data.results[0].geometry.location.lng,
-                latitudeDelta: 0.006,
-                longitudeDelta: 0.006
-            };
-            setLatLong({ region: region });
-        });
-    }, [propertyData.address]);
-
     return (
         <View style={styles.jobDetailsWrapper}>
             <View style={styles.topWrapper}>
                 <View style={[styles.jobInfo, styles.shadowProp]}>
                     <View>
-                        <Text style={styles.jobName}>{jobData.job_name}</Text>
+                        <Text style={styles.jobName}>{clientData.name}</Text>
                     </View>
                     <View style={styles.jobInfoItemWrap}>
                         <Ionicons
@@ -83,9 +57,9 @@ export const Overview = ({ route }: any) => {
                             size={25}
                             color="black"
                         />
-                        <Text style={[styles.title, styles.address]}>
+                        {/* <Text style={[styles.title, styles.address]}>
                             {formattedAddress && formattedAddress}
-                        </Text>
+                        </Text> */}
                     </View>
                     <View style={styles.jobInfoItemWrap}>
                         <Ionicons
@@ -93,7 +67,7 @@ export const Overview = ({ route }: any) => {
                             size={25}
                             color="black"
                         />
-                        <Text style={styles.title}>{clientData.name}</Text>
+                        {/* <Text style={styles.title}>{clientData.name}</Text> */}
                     </View>
                     <View style={styles.jobInfoItemWrap}>
                         <MaterialIcons
@@ -101,17 +75,17 @@ export const Overview = ({ route }: any) => {
                             size={25}
                             color="black"
                         />
-                        <Text style={styles.title}>{jobData.assigned && jobData.assigned.time.date}</Text>
+                        {/* <Text style={styles.title}>{jobData.assigned && jobData.assigned.time.date}</Text> */}
                     </View>
                     <View style={styles.jobInfoItemWrap}>
                         <Feather name="info" size={25} color="black" />
-                        <Text style={styles.title}>[Status]</Text>
+                        {/* <Text style={styles.title}>[Status]</Text> */}
                     </View>
                 </View>
                 <View style={[styles.jobMap, styles.shadowProp]}>
-                    <MapView style={styles.map} region={latLong.region}>
+                    {/* <MapView style={styles.map} region={latLong.region}>
                         <Marker coordinate={latLong.region} pinColor={'blue'} />
-                    </MapView>
+                    </MapView> */}
                 </View>
             </View>
             <View style={styles.bottomWrapper}>
@@ -119,9 +93,9 @@ export const Overview = ({ route }: any) => {
                         Description 
                     </Text>
                 <View style={[styles.descWrapper, styles.shadowProp]}>
-                    <Text style={styles.jobDescription}>
+                    {/* <Text style={styles.jobDescription}>
                             {jobData.description}
-                    </Text>
+                    </Text> */}
                 </View>
             </View>
         </View>

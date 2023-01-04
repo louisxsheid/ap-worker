@@ -19,7 +19,7 @@ export default function TabOneScreen({
 
     useEffect(() => {
         onValue(workersRef, (snapshot) => {
-            console.log('inside')
+
             // let currentUser;
             if (!snapshot.exists()) return;
             const data = snapshot.val();
@@ -38,17 +38,27 @@ export default function TabOneScreen({
     }, []);
 
     useEffect(() => {
-        const activeJobsRef = ref(db, `workers/${currentUser.id}/active_jobs`);
-        get(activeJobsRef).then( (snapshot) => {
-            if (!snapshot.exists()) return;
-            const data = snapshot.val();
-            const activeJobs: any = [];
+
+        const getActiveJobs = async (data: any) => { 
+            let aJobs: any = [];
             for (const [_, value] of Object.entries(data)) {
-                activeJobs.push(value);
+                //@ts-ignore
+                let aJobItem = ref(db, `jobs/${value.id}`);
+                await get(aJobItem).then((snapshot) => {
+                    if (!snapshot.exists()) return;
+                    const data = snapshot.val();
+                    aJobs.push(data);
+                 });
             }
-            console.log("activeJobs ", activeJobs)
-            setActiveJobs(activeJobs);
-         });
+            setActiveJobs(aJobs);
+            // return aJobs;
+        };
+            const activeJobsRef = ref(db, `workers/${currentUser.id}/active_jobs`);
+            get(activeJobsRef).then( (snapshot) => {
+                if (!snapshot.exists()) return;
+                const data = snapshot.val();
+                getActiveJobs(data);
+             });
     }, [currentUser]);
 
     return (
@@ -95,8 +105,8 @@ export default function TabOneScreen({
                                         >
                                             <Text>{job.date}</Text>
                                             <Text>
-                                                {job.start_time} -{' '}
-                                                {job.end_time}
+                                                {job.assigned.time.start_time} -{' '}
+                                                {job.assigned.time.end_time}
                                             </Text>
                                         </View>
                                         <Text
